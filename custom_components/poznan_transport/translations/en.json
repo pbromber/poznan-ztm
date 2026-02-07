@@ -1,0 +1,27 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add Poznań Transport Stop",
+        "description": "Enter the stop symbol (e.g., NIED01) and optionally filter by lines.",
+        "data": {
+          "stop_symbol": "Stop Symbol",
+          "lines": "Lines to filter (comma-separated, optional)"
+        },
+        "data_description": {
+          "stop_symbol": "The stop code from ZTM Poznań (e.g., NIED01)",
+          "lines": "Filter departures by line numbers (e.g., 171, 172). Leave empty for all lines."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to ZTM API",
+      "invalid_stop": "Invalid stop symbol",
+      "unknown": "Unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "This stop is already configured"
+    }
+  }
+}
+

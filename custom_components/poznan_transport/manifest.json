@@ -1,0 +1,13 @@
+{
+  "domain": "poznan_transport",
+  "name": "Poznań Public Transport",
+  "codeowners": ["@pbromber"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/pbromber/ztm-hass",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "requirements": ["aiohttp>=3.8.0"],
+  "version": "1.0.0"
+}
+

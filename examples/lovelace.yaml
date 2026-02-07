@@ -1,0 +1,95 @@
+# Example Lovelace dashboard configuration
+
+# Simple card showing next departure
+type: custom:poznan-transport-card
+entity: sensor.niedziałkowskiego_all_departures
+max_departures: 5
+
+---
+
+# Multiple stops in vertical stack
+type: vertical-stack
+cards:
+  - type: custom:poznan-transport-card
+    entity: sensor.niedziałkowskiego_all_departures
+    max_departures: 3
+  - type: custom:poznan-transport-card
+    entity: sensor.rondo_kaponiera_all_departures
+    max_departures: 3
+
+---
+
+# Show only when departures exist
+type: conditional
+conditions:
+  - entity: sensor.niedziałkowskiego_next_departure
+    state_not: "No departures"
+card:
+  type: custom:poznan-transport-card
+  entity: sensor.niedziałkowskiego_all_departures
+  max_departures: 5
+
+---
+
+# Grid layout with multiple stops
+type: grid
+columns: 2
+cards:
+  - type: custom:poznan-transport-card
+    entity: sensor.niedziałkowskiego_all_departures
+    max_departures: 4
+  - type: custom:poznan-transport-card
+    entity: sensor.dworzec_główny_all_departures
+    max_departures: 4
+
+---
+
+# Simple entity card showing next departure
+type: entities
+title: Next Bus
+entities:
+  - entity: sensor.niedziałkowskiego_next_departure
+    name: Niedziałkowskiego
+    icon: mdi:bus-clock
+  - type: attribute
+    entity: sensor.niedziałkowskiego_next_departure
+    attribute: direction
+    name: Direction
+  - type: attribute
+    entity: sensor.niedziałkowskiego_next_departure
+    attribute: minutes
+    name: Minutes
+    suffix: min
+
+---
+
+# Glance card with multiple stops
+type: glance
+title: Bus Stops
+entities:
+  - entity: sensor.niedziałkowskiego_next_departure
+    name: Niedziałkowskiego
+  - entity: sensor.rondo_kaponiera_next_departure
+    name: Rondo Kaponiera
+  - entity: sensor.dworzec_główny_next_departure
+    name: Dworzec
+
+---
+
+# Custom button card (requires custom:button-card)
+type: custom:button-card
+entity: sensor.niedziałkowskiego_next_departure
+show_state: true
+show_icon: true
+icon: mdi:bus
+name: Next Bus
+styles:
+  card:
+    - background-color: |
+        [[[ 
+          const minutes = states['sensor.niedziałkowskiego_next_departure'].attributes.minutes;
+          if (minutes <= 2) return 'rgba(244, 67, 54, 0.2)';
+          if (minutes <= 5) return 'rgba(255, 152, 0, 0.2)';
+          return 'rgba(76, 175, 80, 0.2)';
+        ]]]
+
