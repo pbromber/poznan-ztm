@@ -28,12 +28,10 @@ Integracja Home Assistant dla transportu publicznego w Poznaniu (ZTM Poznań / P
 
 ### Metoda 2: Manualna
 
-1. Skopiuj folder `custom_components/poznan_transport` do `config/custom_components/poznan_transport`
-2. **Ważne:** Skopiuj plik `www/poznan-transport-card.js` z tego repozytorium do katalogu `config/www/` w Home Assistant:
-   - Pobierz plik: [poznan-transport-card.js](www/poznan-transport-card.js)
-   - Skopiuj go do katalogu `www` w Home Assistant (jeśli folder nie istnieje, utwórz go)
-   - Pełna ścieżka w Home Assistant: `config/www/poznan-transport-card.js`
-3. Zrestartuj Home Assistant
+1. Skopiuj cały folder `custom_components/poznan_transport` do `config/custom_components/poznan_transport` w Home Assistant
+   - Plik karty (`poznan-transport-card.js`) jest już w tym folderze i zostanie automatycznie skopiowany do `www/` przy pierwszym uruchomieniu
+2. Zrestartuj Home Assistant
+3. Integracja automatycznie skopiuje kartę Lovelace do katalogu `config/www/`
 
 ## Konfiguracja
 
