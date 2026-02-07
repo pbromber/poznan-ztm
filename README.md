@@ -29,7 +29,10 @@ Integracja Home Assistant dla transportu publicznego w Poznaniu (ZTM Poznań / P
 ### Metoda 2: Manualna
 
 1. Skopiuj folder `custom_components/poznan_transport` do `config/custom_components/poznan_transport`
-2. Skopiuj plik `www/poznan-transport-card.js` do `config/www/poznan-transport-card.js`
+2. **Ważne:** Skopiuj plik `www/poznan-transport-card.js` z tego repozytorium do katalogu `config/www/` w Home Assistant:
+   - Pobierz plik: [poznan-transport-card.js](www/poznan-transport-card.js)
+   - Skopiuj go do katalogu `www` w Home Assistant (jeśli folder nie istnieje, utwórz go)
+   - Pełna ścieżka w Home Assistant: `config/www/poznan-transport-card.js`
 3. Zrestartuj Home Assistant
 
 ## Konfiguracja
@@ -88,11 +91,17 @@ Po dodaniu przystanku, utworzone zostaną 2 sensory:
    ```
 
 2. Dodaj kartę do dashboardu:
+   - Otwórz swój dashboard w Home Assistant
+   - Kliknij **Edit Dashboard** (ikona ołówka w prawym górnym rogu)
+   - Kliknij **Add Card** (niebieski przycisk na dole)
+   - Przewiń w dół i wybierz **Manual** (ręczna konfiguracja)
+   - Wklej poniższy YAML:
    ```yaml
    type: custom:poznan-transport-card
    entity: sensor.niedziałkowskiego_all_departures
    max_departures: 5
    ```
+   - Kliknij **Save**, a następnie **Done**
 
 ### Opcje karty
 
@@ -174,11 +183,17 @@ card:
 2. Wyczyść cache przeglądarki (Ctrl+Shift+R)
 3. Sprawdź logi: **Settings** → **System** → **Logs**
 
-### Karta nie wyświetla się
+### Karta nie wyświetla się / "Custom element doesn't exist: poznan-transport-card"
 
-1. Sprawdź czy zasób został dodany: **Settings** → **Dashboards** → **Resources**
-2. Wyczyść cache przeglądarki
-3. Sprawdź konsolę deweloperską (F12) w przeglądarce
+1. **Sprawdź czy plik karty istnieje w Home Assistant:**
+   - Plik musi być w katalogu `config/www/poznan-transport-card.js`
+   - Jeśli nie ma, skopiuj go z repozytorium (folder `www/poznan-transport-card.js`)
+2. **Dodaj zasób:** **Settings** → **Dashboards** → **Resources**
+   - URL: `/local/poznan-transport-card.js`
+   - Type: JavaScript Module
+3. **Wyczyść cache przeglądarki:** Ctrl+Shift+R (lub Cmd+Shift+R na Mac)
+4. **Zrestartuj Home Assistant**
+5. Sprawdź konsolę deweloperską (F12) w przeglądarce - czy są błędy ładowania pliku
 
 ### "Invalid stop symbol"
 
