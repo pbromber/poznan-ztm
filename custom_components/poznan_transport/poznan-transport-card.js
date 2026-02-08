@@ -50,21 +50,27 @@ class PoznanTransportCard extends HTMLElement {
         }
         .departure {
           display: flex;
-          justify-content: space-between;
-          align-items: center;
+          flex-direction: column;
           padding: 12px;
           background: var(--secondary-background-color);
           border-radius: 8px;
           transition: background 0.2s;
+          gap: 8px;
         }
         .departure:hover {
           background: var(--divider-color);
         }
-        .departure-left {
+        .departure-top {
           display: flex;
           align-items: center;
           gap: 12px;
-          flex: 1;
+          width: 100%;
+        }
+        .departure-bottom {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
         }
         .line-badge {
           background: var(--primary-color);
@@ -75,10 +81,12 @@ class PoznanTransportCard extends HTMLElement {
           font-size: 1.1em;
           min-width: 40px;
           text-align: center;
+          flex-shrink: 0;
         }
         .direction {
           flex: 1;
           font-size: 0.95em;
+          min-width: 100px;
         }
         .time {
           font-size: 1.2em;
@@ -87,6 +95,7 @@ class PoznanTransportCard extends HTMLElement {
           display: flex;
           align-items: center;
           gap: 4px;
+          white-space: nowrap;
         }
         .realtime {
           color: #4caf50;
@@ -97,12 +106,12 @@ class PoznanTransportCard extends HTMLElement {
         .features {
           display: flex;
           gap: 8px;
-          margin-left: 12px;
         }
         .feature-icon {
           --mdc-icon-size: 20px;
           opacity: 0.7;
         }
+
         .no-departures {
           text-align: center;
           padding: 20px;
@@ -140,7 +149,7 @@ class PoznanTransportCard extends HTMLElement {
     const maxDepartures = this.config.max_departures || 5;
     const html = departures.slice(0, maxDepartures).map(dep => {
       const timeClass = dep.real_time ? 'realtime' : 'scheduled';
-      const timeIcon = dep.real_time ? 'mdi:clock-check' : 'mdi:clock-outline';
+      const timeIcon = dep.real_time ? 'mdi:clock' : 'mdi:clock-outline';
       
       let timeText;
       if (dep.minutes === 0) {
@@ -158,17 +167,31 @@ class PoznanTransportCard extends HTMLElement {
 
       return `
         <div class="departure">
-          <div class="departure-left">
+          <div class="departure-top">
             <div class="line-badge">${dep.line}</div>
             <div class="direction">${dep.direction}</div>
+            ${!dep.real_time ? `
+            <div class="time ${timeClass}">
+              <ha-icon icon="${timeIcon}"></ha-icon>
+              ${timeText}
+            </div>
+            ` : ''}
           </div>
+          ${dep.real_time ? `
+          <div class="departure-bottom">
+            <div class="features">
+              ${features.join('')}
+            </div>
+            <div class="time ${timeClass}">
+              <ha-icon icon="${timeIcon}"></ha-icon>
+              ${timeText}
+            </div>
+          </div>
+          ` : `
           <div class="features">
             ${features.join('')}
           </div>
-          <div class="time ${timeClass}">
-            <ha-icon icon="${timeIcon}"></ha-icon>
-            ${timeText}
-          </div>
+          `}
         </div>
       `;
     }).join('');
