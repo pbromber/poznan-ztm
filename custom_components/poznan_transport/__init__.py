@@ -25,7 +25,7 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
 
 
 async def _async_setup_lovelace_card(hass: HomeAssistant) -> None:
-    """Copy Lovelace card to www folder."""
+    """Copy Lovelace card to www folder if source is newer."""
     try:
         source = Path(__file__).parent / "poznan-transport-card.js"
         target_dir = Path(hass.config.path("www/community/poznan-transport-card"))
@@ -34,8 +34,18 @@ async def _async_setup_lovelace_card(hass: HomeAssistant) -> None:
         target_dir.mkdir(parents=True, exist_ok=True)
         
         if source.exists():
-            await hass.async_add_executor_job(shutil.copy2, str(source), str(target))
-            _LOGGER.info("Copied Lovelace card to %s", target)
+            # Copy if target doesn't exist or source is newer
+            should_copy = not target.exists()
+            if not should_copy:
+                source_mtime = await hass.async_add_executor_job(source.stat)
+                target_mtime = await hass.async_add_executor_job(target.stat)
+                should_copy = source_mtime.st_mtime > target_mtime.st_mtime
+            
+            if should_copy:
+                await hass.async_add_executor_job(shutil.copy2, str(source), str(target))
+                _LOGGER.info("Copied Lovelace card to %s", target)
+            else:
+                _LOGGER.debug("Lovelace card is up to date")
         else:
             _LOGGER.warning("Lovelace card source file not found at %s", source)
     except Exception as err:
