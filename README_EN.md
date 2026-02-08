@@ -31,9 +31,8 @@ Home Assistant integration for public transport in Poznań, Poland (ZTM Poznań 
 ### Method 2: Manual
 
 1. Copy the entire `custom_components/poznan_transport` folder to `config/custom_components/poznan_transport` in Home Assistant
-   - The card file (`poznan-transport-card.js`) is already in this folder and will be automatically copied to `www/community/poznan-transport-card/` on first run
 2. Restart Home Assistant
-3. The integration will automatically copy the Lovelace card to `config/www/community/poznan-transport-card/`
+3. The Lovelace card will be automatically registered
 
 ## Configuration
 
@@ -83,13 +82,15 @@ After adding a stop, 2 sensors will be created:
 
 ### Adding the card
 
-1. Add resource in **Settings** → **Dashboards** → **Resources**:
-   ```
-   URL: /local/community/poznan-transport-card/poznan-transport-card.js
-   Type: JavaScript Module
-   ```
+**NOTE:** After installing the integration, the card file is automatically copied to `www/community/poznan-transport-card/`, but you need to manually add the resource (only once).
 
-2. Add card to dashboard:
+1. **Add resource in Settings → Dashboards → Resources:**
+   - Click **Add Resource**
+   - URL: `/local/community/poznan-transport-card/poznan-transport-card.js`
+   - Type: **JavaScript Module**
+   - Click **Create**
+
+2. **Add card to dashboard:**
    - Open your dashboard in Home Assistant
    - Click **Edit Dashboard** (pencil icon in top right corner)
    - Click **Add Card** (blue button at the bottom)
@@ -97,10 +98,12 @@ After adding a stop, 2 sensors will be created:
    - Paste the following YAML:
    ```yaml
    type: custom:poznan-transport-card
-   entity: sensor.niedziałkowskiego_all_departures
+   entity: sensor.niedzialkowskiego_nied01_all_departures
    max_departures: 5
    ```
    - Click **Save**, then **Done**
+
+3. **Clear browser cache:** Ctrl+Shift+R (or Cmd+Shift+R on Mac)
 
 ### Card options
 
@@ -184,15 +187,13 @@ card:
 
 ### Card not displaying / "Custom element doesn't exist: poznan-transport-card"
 
-1. **Check if card file exists in Home Assistant:**
-   - File must be in `config/www/community/poznan-transport-card/poznan-transport-card.js`
-   - When installed via HACS, the file is copied automatically after restart
-2. **Add resource:** **Settings** → **Dashboards** → **Resources**
+1. **Check if file exists:** `config/www/community/poznan-transport-card/poznan-transport-card.js`
+2. **Add resource in Settings → Dashboards → Resources:**
    - URL: `/local/community/poznan-transport-card/poznan-transport-card.js`
    - Type: JavaScript Module
-3. **Clear browser cache:** Ctrl+Shift+R (or Cmd+Shift+R on Mac)
-4. **Restart Home Assistant**
-5. Check developer console (F12) in browser - are there any file loading errors
+3. **Restart Home Assistant** (if file doesn't exist)
+4. **Clear cache:** Ctrl+Shift+R (or Cmd+Shift+R on Mac)
+5. Check developer console (F12) - are there any errors
 
 ### "Invalid stop symbol"
 

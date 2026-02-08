@@ -31,9 +31,8 @@ Integracja Home Assistant dla transportu publicznego w Poznaniu (ZTM Poznań / P
 ### Metoda 2: Manualna
 
 1. Skopiuj cały folder `custom_components/poznan_transport` do `config/custom_components/poznan_transport` w Home Assistant
-   - Plik karty (`poznan-transport-card.js`) jest już w tym folderze i zostanie automatycznie skopiowany do `www/community/poznan-transport-card/` przy pierwszym uruchomieniu
 2. Zrestartuj Home Assistant
-3. Integracja automatycznie skopiuje kartę Lovelace do katalogu `config/www/community/poznan-transport-card/`
+3. Karta Lovelace zostanie automatycznie zarejestrowana
 
 ## Konfiguracja
 
@@ -83,13 +82,15 @@ Po dodaniu przystanku, utworzone zostaną 2 sensory:
 
 ### Dodawanie karty
 
-1. Dodaj zasób w **Settings** → **Dashboards** → **Resources**:
-   ```
-   URL: /local/community/poznan-transport-card/poznan-transport-card.js
-   Type: JavaScript Module
-   ```
+**UWAGA:** Po zainstalowaniu integracji plik karty jest automatycznie kopiowany do `www/community/poznan-transport-card/`, ale musisz ręcznie dodać zasób (tylko raz).
 
-2. Dodaj kartę do dashboardu:
+1. **Dodaj zasób w Settings → Dashboards → Resources:**
+   - Kliknij **Add Resource**
+   - URL: `/local/community/poznan-transport-card/poznan-transport-card.js`
+   - Type: **JavaScript Module**
+   - Kliknij **Create**
+
+2. **Dodaj kartę do dashboardu:**
    - Otwórz swój dashboard w Home Assistant
    - Kliknij **Edit Dashboard** (ikona ołówka w prawym górnym rogu)
    - Kliknij **Add Card** (niebieski przycisk na dole)
@@ -97,10 +98,12 @@ Po dodaniu przystanku, utworzone zostaną 2 sensory:
    - Wklej poniższy YAML:
    ```yaml
    type: custom:poznan-transport-card
-   entity: sensor.niedziałkowskiego_all_departures
+   entity: sensor.niedzialkowskiego_nied01_all_departures
    max_departures: 5
    ```
    - Kliknij **Save**, a następnie **Done**
+
+3. **Wyczyść cache przeglądarki:** Ctrl+Shift+R (lub Cmd+Shift+R na Mac)
 
 ### Opcje karty
 
@@ -184,15 +187,13 @@ card:
 
 ### Karta nie wyświetla się / "Custom element doesn't exist: poznan-transport-card"
 
-1. **Sprawdź czy plik karty istnieje w Home Assistant:**
-   - Plik musi być w katalogu `config/www/community/poznan-transport-card/poznan-transport-card.js`
-   - Przy instalacji przez HACS plik jest kopiowany automatycznie po restarcie
-2. **Dodaj zasób:** **Settings** → **Dashboards** → **Resources**
+1. **Sprawdź czy plik istnieje:** `config/www/community/poznan-transport-card/poznan-transport-card.js`
+2. **Dodaj zasób w Settings → Dashboards → Resources:**
    - URL: `/local/community/poznan-transport-card/poznan-transport-card.js`
    - Type: JavaScript Module
-3. **Wyczyść cache przeglądarki:** Ctrl+Shift+R (lub Cmd+Shift+R na Mac)
-4. **Zrestartuj Home Assistant**
-5. Sprawdź konsolę deweloperską (F12) w przeglądarce - czy są błędy ładowania pliku
+3. **Zrestartuj Home Assistant** (jeśli plik nie istnieje)
+4. **Wyczyść cache:** Ctrl+Shift+R (lub Cmd+Shift+R na Mac)
+5. Sprawdź konsolę deweloperską (F12) - czy są błędy
 
 ### "Invalid stop symbol"
 
