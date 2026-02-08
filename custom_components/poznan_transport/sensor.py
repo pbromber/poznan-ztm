@@ -59,10 +59,21 @@ class PoznanTransportNextDepartureSensor(CoordinatorEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
-        self._attr_unique_id = f"{entry.entry_id}_next_departure"
-        self._attr_name = "Next Departure"
         self._stop_name = entry.data[CONF_STOP_NAME]
         self._stop_symbol = entry.data[CONF_STOP_SYMBOL]
+        
+        # Create entity_id based on stop name and symbol to avoid conflicts
+        stop_slug = self._stop_name.lower().replace(" ", "_").replace("-", "_")
+        # Remove Polish characters for entity_id compatibility
+        stop_slug = (stop_slug.replace("ą", "a").replace("ć", "c").replace("ę", "e")
+                    .replace("ł", "l").replace("ń", "n").replace("ó", "o")
+                    .replace("ś", "s").replace("ź", "z").replace("ż", "z"))
+        symbol_slug = self._stop_symbol.lower()
+        
+        self._attr_unique_id = f"{entry.entry_id}_next_departure"
+        self._attr_name = "Next Departure"
+        # Include stop symbol to avoid conflicts for stops with same name
+        self.entity_id = f"sensor.{stop_slug}_{symbol_slug}_next_departure"
 
     @property
     def native_value(self) -> str | None:
@@ -126,10 +137,21 @@ class PoznanTransportDeparturesSensor(CoordinatorEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
-        self._attr_unique_id = f"{entry.entry_id}_departures"
-        self._attr_name = "All Departures"
         self._stop_name = entry.data[CONF_STOP_NAME]
         self._stop_symbol = entry.data[CONF_STOP_SYMBOL]
+        
+        # Create entity_id based on stop name and symbol to avoid conflicts
+        stop_slug = self._stop_name.lower().replace(" ", "_").replace("-", "_")
+        # Remove Polish characters for entity_id compatibility
+        stop_slug = (stop_slug.replace("ą", "a").replace("ć", "c").replace("ę", "e")
+                    .replace("ł", "l").replace("ń", "n").replace("ó", "o")
+                    .replace("ś", "s").replace("ź", "z").replace("ż", "z"))
+        symbol_slug = self._stop_symbol.lower()
+        
+        self._attr_unique_id = f"{entry.entry_id}_departures"
+        self._attr_name = "All Departures"
+        # Include stop symbol to avoid conflicts for stops with same name
+        self.entity_id = f"sensor.{stop_slug}_{symbol_slug}_all_departures"
 
     @property
     def native_value(self) -> int:

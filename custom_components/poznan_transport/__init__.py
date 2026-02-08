@@ -31,11 +31,11 @@ async def _async_setup_lovelace_card(hass: HomeAssistant) -> None:
     try:
         # Source file is now in the integration directory
         source = Path(__file__).parent / "poznan-transport-card.js"
-        target_dir = Path(hass.config.path("www"))
+        target_dir = Path(hass.config.path("www/community/poznan-transport-card"))
         target = target_dir / "poznan-transport-card.js"
         
-        # Create www directory if it doesn't exist
-        target_dir.mkdir(exist_ok=True)
+        # Create directory if it doesn't exist
+        target_dir.mkdir(parents=True, exist_ok=True)
         
         # Copy file if source exists
         if source.exists():

@@ -2,6 +2,8 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 
+[English version](README_EN.md) | Wersja polska
+
 Integracja Home Assistant dla transportu publicznego w Poznaniu (ZTM Poznań / PEKA).
 
 ## Funkcje
@@ -29,9 +31,9 @@ Integracja Home Assistant dla transportu publicznego w Poznaniu (ZTM Poznań / P
 ### Metoda 2: Manualna
 
 1. Skopiuj cały folder `custom_components/poznan_transport` do `config/custom_components/poznan_transport` w Home Assistant
-   - Plik karty (`poznan-transport-card.js`) jest już w tym folderze i zostanie automatycznie skopiowany do `www/` przy pierwszym uruchomieniu
+   - Plik karty (`poznan-transport-card.js`) jest już w tym folderze i zostanie automatycznie skopiowany do `www/community/poznan-transport-card/` przy pierwszym uruchomieniu
 2. Zrestartuj Home Assistant
-3. Integracja automatycznie skopiuje kartę Lovelace do katalogu `config/www/`
+3. Integracja automatycznie skopiuje kartę Lovelace do katalogu `config/www/community/poznan-transport-card/`
 
 ## Konfiguracja
 
@@ -46,11 +48,10 @@ Integracja Home Assistant dla transportu publicznego w Poznaniu (ZTM Poznań / P
 
 ### Jak znaleźć kod przystanku?
 
-1. Wejdź na https://www.peka.poznan.pl/
-2. Znajdź swój przystanek na mapie
+1. Wejdź na https://www.peka.poznan.pl/vm/
+2. Wybierz przystanek z listy
 3. Kod przystanku to zazwyczaj kilka pierwszych liter nazwy + numer słupka
 4. Przykłady:
-   - `NIED01` - Niedziałkowskiego
    - `RONDO01` - Rondo Kaponiera
    - `DWOR01` - Dworzec Główny
 
@@ -84,7 +85,7 @@ Po dodaniu przystanku, utworzone zostaną 2 sensory:
 
 1. Dodaj zasób w **Settings** → **Dashboards** → **Resources**:
    ```
-   URL: /local/poznan-transport-card.js
+   URL: /local/community/poznan-transport-card/poznan-transport-card.js
    Type: JavaScript Module
    ```
 
@@ -184,10 +185,10 @@ card:
 ### Karta nie wyświetla się / "Custom element doesn't exist: poznan-transport-card"
 
 1. **Sprawdź czy plik karty istnieje w Home Assistant:**
-   - Plik musi być w katalogu `config/www/poznan-transport-card.js`
-   - Jeśli nie ma, skopiuj go z repozytorium (folder `www/poznan-transport-card.js`)
+   - Plik musi być w katalogu `config/www/community/poznan-transport-card/poznan-transport-card.js`
+   - Przy instalacji przez HACS plik jest kopiowany automatycznie po restarcie
 2. **Dodaj zasób:** **Settings** → **Dashboards** → **Resources**
-   - URL: `/local/poznan-transport-card.js`
+   - URL: `/local/community/poznan-transport-card/poznan-transport-card.js`
    - Type: JavaScript Module
 3. **Wyczyść cache przeglądarki:** Ctrl+Shift+R (lub Cmd+Shift+R na Mac)
 4. **Zrestartuj Home Assistant**
