@@ -86,7 +86,10 @@ class PoznanTransportCard extends HTMLElement {
         .direction {
           flex: 1;
           font-size: 0.95em;
-          min-width: 100px;
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         .time {
           font-size: 1.2em;
