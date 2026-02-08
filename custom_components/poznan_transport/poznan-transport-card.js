@@ -187,11 +187,7 @@ class PoznanTransportCard extends HTMLElement {
               ${timeText}
             </div>
           </div>
-          ` : `
-          <div class="features">
-            ${features.join('')}
-          </div>
-          `}
+          ` : ''}
         </div>
       `;
     }).join('');
